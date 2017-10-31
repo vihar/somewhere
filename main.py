@@ -12,11 +12,11 @@ def home():
 
 
 @app.route('/session')
-def sessions():
+def sessions(methods=['GET', 'POST']):
     return render_template('session.html')
 
 
-def messageRecived():
+def messageRecived(methods=['GET', 'POST']):
     print('message was received!!!')
 
 
