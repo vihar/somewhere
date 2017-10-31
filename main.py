@@ -20,13 +20,13 @@ def messageRecived():
     print('message was received!!!')
 
 
-@socketio.on('message')
+@socketio.on('message', methods=['GET', 'POST'])
 def handle_message(message):
     print('received message: ' + message)
     send(message, broadcast=True)
 
 
-@socketio.on('my event')
+@socketio.on('my event', methods=['GET', 'POST'])
 def handle_my_custom_event(json):
     print('recived my event: ' + str(json))
     socketio.emit('my response', json, callback=messageRecived)
