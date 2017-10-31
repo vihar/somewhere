@@ -12,7 +12,53 @@
 
   <link href="https://fonts.googleapis.com/css?family=Dancing+Script" rel="stylesheet">
 
-  <link rel="stylesheet" type="text/css" href="static/color.css">
+  <style type="text/css">
+    div.msg_bbl {
+  background-color: #fff;
+  padding: 5px 10px;
+  border-radius: 30px;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.title-font{
+  font-family: 'Dancing Script', cursive;
+  font-size: 42px;
+  color: #F50057;
+  font-weight: 500;
+}
+.msg-container{
+  border: 1px solid #4581AF; 
+  border-radius: 30px;
+  height: 60vh;
+  overflow:scroll;
+  padding-top: 20px; 
+}
+.min-height{
+  min-height: 2000px;
+}
+.control{
+  margin-top: 20px;
+}
+button{
+  background: none;
+  border: none;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
+.form-control{
+  min-height: 52px;
+  font-size: 17px;
+  line-height: 20px;
+  padding: 0 15px;
+  border: 2px solid #C9C9C9;
+  box-shadow: none !important;
+}
+.form-control:focus {
+  border-color: #52BAD5;
+}
+  </style>
 </head>
 <body>
 
@@ -50,7 +96,32 @@
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
-  <script src="static/socket_sessions.js"></script>
+  <script type="text/javascript">
+    var socket = io.connect( 'http://' + document.domain + ':' + location.port )
+  //Fuck this shit !!!!!
+  socket.on( 'connect', function() {
+    socket.emit( 'my event', {
+      data: 'User Connected'
+    } )
+    var form = $( 'form' ).on( 'submit', function( e ) {
+      e.preventDefault()
+      let user_name = $( 'input.username' ).val()
+      let user_input = $( 'input.message' ).val()
+      socket.emit( 'my event', {
+        user_name : user_name,
+        message : user_input
+      } )
+      $( 'input.message' ).val( '' ).focus()
+    } )
+  } )
+  socket.on( 'my response', function( msg ) {
+    console.log( msg )
+    if( typeof msg.user_name !== 'undefined' ) {
+      $( 'h3' ).remove()
+      $( 'div.message_holder' ).append( '<div class="msg_bbl"><b style="color: #000">'+msg.user_name+'</b> '+msg.message+'</div>' )
+    }
+  } )
+  </script>
 
 </body>
 </html>
