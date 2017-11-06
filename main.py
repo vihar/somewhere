@@ -12,7 +12,7 @@ def home():
 
 
 @app.route('/session')
-def sessions(methods=['GET', 'POST']):
+def sessions():
     return render_template('session.html')
 
 
