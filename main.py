@@ -11,7 +11,7 @@ def home():
     return render_template('index.html')
 
 
-@app.route('/session')
+@app.route('/session',methods=['GET', 'POST'])
 def sessions():
     return render_template('session.html')
 
